@@ -1,2 +1,2 @@
 username: admin
-oassword: 123
+password: 123
