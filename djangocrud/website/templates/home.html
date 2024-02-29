@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+
+{%block content%}
+
+
+
+{%if user.is_authenticated %}
+
+
+<table class="table table-striped table-secondary table-hover table-bordered">
+  <thead class="table-light">
+    <tr>
+      <th scope="col">ID</th> 
+      <th scope="col">Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Phone</th>
+      <th scope="col">Address</th>
+      <th scope="col">City</th>
+      <th scope="col">Join Date</th>
+      <th scope="col">Edit</th>
+      <th scope="col">Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+      {%if customer%}
+{%for cust in customer%}
+ <tr>
+   <td><a href="{%url 'record' cust.id%}" style="color: inherit; text-decoration: none;"> {{cust.id}}<a></td>
+    <td><a href="{%url 'record' cust.id%}" style="color: inherit; text-decoration: none;">{{cust.first_name}}
+    {{cust.last_name}}<a></td>
+    <td><a href="{%url 'record' cust.id%}" style="color: inherit; text-decoration: none;">  {{cust.email}}</a></td>
+    <td><a href="{%url 'record' cust.id%}" style="color: inherit; text-decoration: none;">  {{cust.phone}}</a></td>
+    <td><a href="{%url 'record' cust.id%}" style="color: inherit; text-decoration: none;"> {{cust.address}}</a></td> 
+    <td><a href="{%url 'record' cust.id%}" style="color: inherit; text-decoration: none;">  {{cust.city}}</a></td>
+    <td><a href="{%url 'record' cust.id%}" style="color: inherit; text-decoration: none;"> {{cust.join_date|date:"d-m-Y"}}</a></td>
+    <td><a href="{%url 'update_cust' cust.id %}" class="btn btn-secondary">🖊</a></td>
+    <td>
+      <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal{{cust.id}}">❌</button>
+      <div class="modal fade" id="exampleModal{{cust.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">are you sure you want to Delete</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <a href="{%url 'delete_cust_record' cust.id %}" class="btn btn-danger">Delete</a>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    
+    </td>
+</tr>
+{%endfor%}
+{%endif%}
+    
+  </tbody>
+</table>
+<br>
+<table class="table table-striped table-secondary table-hover table-bordered">
+  <thead class="table-light">
+    <tr>
+      <th scope="col">ID</th> 
+      <th scope="col">Product Name</th>
+      <th scope="col">Product Description</th>
+      <th scope="col">Price</th>
+      <th scope="col">Image</th>
+      <th scope="col">Created Date</th>
+      <th scope="col">Edit</th>
+      <th scope="col">Delete</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    
+      {%if product%}
+{%for prod in product%}
+ <tr>
+   <td><a href="{%url 'product' prod.id%}" style="color: inherit; text-decoration: none;"> {{prod.id}}<a></td>
+    <td><a href="{%url 'product' prod.id%}" style="color: inherit; text-decoration: none;">{{prod.product_name}}<a></td>
+    <td><a href="{%url 'product' prod.id%}" style="color: inherit; text-decoration: none;">  {{prod.description}}</a></td>
+    <td><a href="{%url 'product' prod.id%}" style="color: inherit; text-decoration: none;"> {{prod.price}}</a></td> 
+    <td>
+      <a href="{% url 'product' prod.id %}" style="color: inherit; text-decoration: none;">
+          <img src="{{ prod.image.url }}" alt="{{ prod.name }}" style="width:80px;">
+      </a>
+  </td>
+  
+    <td><a href="{%url 'product' prod.id%}" style="color: inherit; text-decoration: none;"> {{prod.created_at|date:"d-m-Y"}}</a></td>
+    <td><a href="{%url 'update_prod' prod.id %}" class="btn btn-secondary">🖊</a></td>
+    <td>
+      <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal{{prod.id}}">❌</button>
+      <div class="modal fade" id="exampleModal{{prod.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">are you sure you want to Delete</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <a href="{%url 'delete_product_record' prod.id %}" class="btn btn-danger"> DELETE</a>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    
+    </td>
+</tr>
+{%endfor%}
+{%endif%}
+    
+  </tbody>
+</table>
+
+
+{%else%}
+<div class="col-md-6 offset-md-3  border rounded border-dark p-5 bg-dark text-light">
+<h1>Login</h1>
+<br>
+<form method="POST" action="{%url 'home'%}">
+   {% csrf_token %}
+   
+    <div class="mb-3">
+
+      <input type="text" class="form-control" name="username" placeholder="user name" required>
+    </div>
+    <div class="mb-3">
+      <input type="password" class="form-control" name="password" placeholder="password" required>
+    </div>
+    <br>
+    <button type="submit" class="btn btn-light">Login</button>
+  
+
+
+
+
+</form>
+
+</div>
+{%endif%}
+{%endblock%}

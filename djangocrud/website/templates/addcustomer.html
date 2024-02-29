@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{%block content%}
+<div class="col-md-6 offset-md-3">
+<h1>add custmer<h1/>
+  <br/>
+
+  <form method="POST" action="{%url 'add_cust'%}">
+    {% csrf_token %}
+
+    {{form.as_p}}
+    
+    <button type="submit" class="btn btn-secondary">Add Customer</button>
+    <a href="{%url 'home' %}" class="btn btn-secondary"> BACK</a>
+  
+
+
+
+
+</form>
+</div>
+  {%endblock%}
